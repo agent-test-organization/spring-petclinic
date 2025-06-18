@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'analytics')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet Analytics Dashboard</title>
+</head>
+<body>
+    <h2>Pet Analytics Dashboard</h2>
+    
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}">Error message</span>
+    </div>
+    
+    <div th:if="${analytics}" class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Pets</h5>
+                        <h3 th:text="${analytics.totalPets}">0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Visits</h5>
+                        <h3 th:text="${analytics.totalVisits}">0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Average Age</h5>
+                        <h3 th:text="${#numbers.formatDecimal(analytics.averageAge, 1, 1)} + ' years'">0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Analysis Date</h5>
+                        <h6 th:text="${analytics.analysisDate}">Today</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Pets by Type</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Pet Type</th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="entry : ${analytics.petsByType}">
+                                    <td th:text="${entry.key}">Type</td>
+                                    <td th:text="${entry.value}">Count</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Health Status Distribution</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Health Status</th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="entry : ${analytics.petsByHealthStatus}">
+                                    <td th:text="${entry.key}">Status</td>
+                                    <td th:text="${entry.value}">Count</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="/api/analytics" class="btn btn-primary mr-2" target="_blank">
+                            View Raw JSON Data
+                        </a>
+                        <button onclick="refreshAnalytics()" class="btn btn-secondary">
+                            Refresh Analytics
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function refreshAnalytics() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html> 

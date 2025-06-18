@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Pet Analytics - ' + ${pet.name}">Pet Analytics</title>
+</head>
+<body>
+    <h2>Pet Analytics Report</h2>
+    
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}">Error message</span>
+    </div>
+    
+    <div th:if="${pet}" class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 th:text="'Analytics for ' + ${pet.name}">Pet Analytics</h5>
+                    </div>
+                    <div class="card-body">
+                        <pre th:text="${report}" class="bg-light p-3">Report content</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <a th:href="@{'/owners/' + ${owner.id}}" class="btn btn-primary">
+                            Back to Owner
+                        </a>
+                        <a th:href="@{'/api/pets/' + ${pet.id} + '/report?ownerId=' + ${owner.id}}" 
+                           class="btn btn-secondary" target="_blank">
+                            View as JSON
+                        </a>
+                        <a href="/analytics" class="btn btn-info">
+                            View Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
