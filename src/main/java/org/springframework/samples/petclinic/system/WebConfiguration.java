@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.system;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -21,6 +22,7 @@ import java.util.Locale;
  * @author Anuj Ashok Potdar
  */
 @Configuration
+@EnableConfigurationProperties(SlackProperties.class)
 @SuppressWarnings("unused")
 public class WebConfiguration implements WebMvcConfigurer {
 
