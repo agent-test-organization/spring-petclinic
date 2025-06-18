@@ -41,13 +41,19 @@ public class PetAnalyticsService {
 	}
 
 	private String categorizeByType(String petType) {
-		return switch (petType.toLowerCase()) {
-			case "dog" -> "Canine";
-			case "cat" -> "Feline";
-			case "bird" -> "Avian";
-			case "hamster", "rabbit" -> "Small Mammal";
-			default -> "Other";
-		};
+		switch (petType.toLowerCase()) {
+			case "dog":
+				return "Canine";
+			case "cat":
+				return "Feline";
+			case "bird":
+				return "Avian";
+			case "hamster":
+			case "rabbit":
+				return "Small Mammal";
+			default:
+				return "Other";
+		}
 	}
 
 	private String formatDate(LocalDate date) {
@@ -101,12 +107,18 @@ public class PetAnalyticsService {
 	}
 
 	private String determineHealthStatus(int visitCount) {
-		return switch (visitCount) {
-			case 0 -> "Unknown";
-			case 1, 2 -> "Good";
-			case 3, 4, 5 -> "Moderate";
-			default -> "High Maintenance";
-		};
+		if (visitCount == 0) {
+			return "Unknown";
+		}
+		else if (visitCount <= 2) {
+			return "Good";
+		}
+		else if (visitCount <= 5) {
+			return "Moderate";
+		}
+		else {
+			return "High Maintenance";
+		}
 	}
 
 	private int calculateAge(LocalDate birthDate) {
