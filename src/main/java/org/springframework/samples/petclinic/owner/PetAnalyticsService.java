@@ -63,16 +63,22 @@ public class PetAnalyticsService {
 	}
 
 	/**
-	 * UPGRADED: Using pattern matching for switch (Java 21+)
+	 * Traditional switch statement as requested
 	 */
 	private String categorizeByType(String petType) {
-		return switch (petType.toLowerCase()) {
-			case "dog" -> "Canine";
-			case "cat" -> "Feline";
-			case "bird" -> "Avian";
-			case "hamster", "rabbit" -> "Small Mammal";
-			default -> "Other";
-		};
+		switch (petType.toLowerCase()) {
+			case "dog":
+				return "Canine";
+			case "cat":
+				return "Feline";
+			case "bird":
+				return "Avian";
+			case "hamster":
+			case "rabbit":
+				return "Small Mammal";
+			default:
+				return "Other";
+		}
 	}
 
 	/**
