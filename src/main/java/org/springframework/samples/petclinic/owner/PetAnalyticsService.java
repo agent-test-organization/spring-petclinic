@@ -117,7 +117,7 @@ public class PetAnalyticsService {
 			return "Moderate";
 		}
 		else {
-			return "High Maintenance";
+			return "super high maintenance";
 		}
 	}
 
