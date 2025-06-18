@@ -62,9 +62,10 @@ class PetController {
 
 	@ModelAttribute("owner")
 	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
-		return this.owners.findById(ownerId)
-			.orElseThrow(() -> new IllegalArgumentException(
-					"Owner not found with id: " + ownerId + ". Please ensure the ID is correct."));
+		Optional<Owner> optionalOwner = this.owners.findById(ownerId);
+		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
+				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
+		return owner;
 	}
 
 	@ModelAttribute("pet")
@@ -75,10 +76,10 @@ class PetController {
 			return new Pet();
 		}
 
-		return this.owners.findById(ownerId)
-			.map(owner -> owner.getPet(petId))
-			.orElseThrow(() -> new IllegalArgumentException(
-					"Owner not found with id: " + ownerId + ". Please ensure the ID is correct."));
+		Optional<Owner> optionalOwner = this.owners.findById(ownerId);
+		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
+				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
+		return owner.getPet(petId);
 	}
 
 	@InitBinder("owner")

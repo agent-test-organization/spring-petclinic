@@ -57,15 +57,10 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 		if (isRateLimited(tracker)) {
 			response.setStatus(429); // Too Many Requests
 			response.setContentType("application/json");
-
-			String jsonResponse = """
-					{
-						"error": "Rate limit exceeded. Try again later.",
-						"maxRequests": %d,
-						"windowSizeMinutes": %d
-					}""".formatted(maxRequests, windowSizeMinutes);
-
-			response.getWriter().write(jsonResponse);
+			response.getWriter()
+				.write(String.format(
+						"{\"error\":\"Rate limit exceeded. Try again later.\",\"maxRequests\":%d,\"windowSizeMinutes\":%d}",
+						maxRequests, windowSizeMinutes));
 			return false;
 		}
 
@@ -95,7 +90,11 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 		}
 
 		String xRealIP = request.getHeader("X-Real-IP");
-		return (xRealIP != null && !xRealIP.isEmpty()) ? xRealIP : request.getRemoteAddr();
+		if (xRealIP != null && !xRealIP.isEmpty()) {
+			return xRealIP;
+		}
+
+		return request.getRemoteAddr();
 	}
 
 	private static class RequestTracker {

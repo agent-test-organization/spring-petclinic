@@ -114,7 +114,15 @@ public class Owner extends Person {
 	 * @return the Pet with the given id, or null if no such Pet exists for this Owner
 	 */
 	public Pet getPet(Integer id) {
-		return getPets().stream().filter(pet -> !pet.isNew() && pet.getId().equals(id)).findFirst().orElse(null);
+		for (Pet pet : getPets()) {
+			if (!pet.isNew()) {
+				Integer compId = pet.getId();
+				if (compId.equals(id)) {
+					return pet;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -124,11 +132,15 @@ public class Owner extends Person {
 	 * @return the Pet with the given name, or null if no such Pet exists for this Owner
 	 */
 	public Pet getPet(String name, boolean ignoreNew) {
-		return getPets().stream()
-			.filter(pet -> pet.getName() != null && pet.getName().equalsIgnoreCase(name))
-			.filter(pet -> !ignoreNew || !pet.isNew())
-			.findFirst()
-			.orElse(null);
+		for (Pet pet : getPets()) {
+			String compName = pet.getName();
+			if (compName != null && compName.equalsIgnoreCase(name)) {
+				if (!ignoreNew || !pet.isNew()) {
+					return pet;
+				}
+			}
+		}
+		return null;
 	}
 
 	@Override

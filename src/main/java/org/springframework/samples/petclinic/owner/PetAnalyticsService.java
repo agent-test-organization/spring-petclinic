@@ -57,7 +57,11 @@ public class PetAnalyticsService {
 	}
 
 	private String formatDate(LocalDate date) {
-		return date != null ? date.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")) : "Unknown";
+		if (date == null) {
+			return "Unknown";
+		}
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+		return date.format(formatter);
 	}
 
 	private String getLastVisitDate(Pet pet) {
@@ -65,11 +69,11 @@ public class PetAnalyticsService {
 			return "No visits";
 		}
 
-		return pet.getVisits()
-			.stream()
-			.max(Comparator.comparing(Visit::getDate))
-			.map(visit -> formatDate(visit.getDate()))
-			.orElse("No visits");
+		List<Visit> visitList = new ArrayList<>(pet.getVisits());
+		visitList.sort(Comparator.comparing(Visit::getDate));
+		Visit lastVisit = visitList.get(visitList.size() - 1);
+
+		return formatDate(lastVisit.getDate());
 	}
 
 	public CompletableFuture<Map<String, Object>> analyzeAllPetsAsync() {
@@ -117,7 +121,7 @@ public class PetAnalyticsService {
 			return "Moderate";
 		}
 		else {
-			return "super high maintenance";
+			return "High Maintenance";
 		}
 	}
 
@@ -132,14 +136,14 @@ public class PetAnalyticsService {
 		Map<String, Object> result = new HashMap<>();
 
 		Map<String, Long> typeCount = analyses.stream()
-			.collect(Collectors.groupingBy(PetAnalysis::type, Collectors.counting()));
+			.collect(Collectors.groupingBy(analysis -> analysis.type, Collectors.counting()));
 
 		Map<String, Long> healthStatusCount = analyses.stream()
-			.collect(Collectors.groupingBy(PetAnalysis::healthStatus, Collectors.counting()));
+			.collect(Collectors.groupingBy(analysis -> analysis.healthStatus, Collectors.counting()));
 
-		double averageAge = analyses.stream().mapToInt(PetAnalysis::ageInYears).average().orElse(0.0);
+		double averageAge = analyses.stream().mapToInt(analysis -> analysis.ageInYears).average().orElse(0.0);
 
-		int totalVisits = analyses.stream().mapToInt(PetAnalysis::visitCount).sum();
+		int totalVisits = analyses.stream().mapToInt(analysis -> analysis.visitCount).sum();
 
 		result.put("totalPets", analyses.size());
 		result.put("petsByType", typeCount);
@@ -151,7 +155,48 @@ public class PetAnalyticsService {
 		return result;
 	}
 
-	public record PetAnalysis(String name, String type, int ageInYears, int visitCount, String healthStatus) {
+	public static class PetAnalysis {
+
+		public final String name;
+
+		public final String type;
+
+		public final int ageInYears;
+
+		public final int visitCount;
+
+		public final String healthStatus;
+
+		public PetAnalysis(String name, String type, int ageInYears, int visitCount, String healthStatus) {
+			this.name = name;
+			this.type = type;
+			this.ageInYears = ageInYears;
+			this.visitCount = visitCount;
+			this.healthStatus = healthStatus;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null || getClass() != obj.getClass())
+				return false;
+			PetAnalysis that = (PetAnalysis) obj;
+			return ageInYears == that.ageInYears && visitCount == that.visitCount && Objects.equals(name, that.name)
+					&& Objects.equals(type, that.type) && Objects.equals(healthStatus, that.healthStatus);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(name, type, ageInYears, visitCount, healthStatus);
+		}
+
+		@Override
+		public String toString() {
+			return "PetAnalysis{" + "name='" + name + '\'' + ", type='" + type + '\'' + ", ageInYears=" + ageInYears
+					+ ", visitCount=" + visitCount + ", healthStatus='" + healthStatus + '\'' + '}';
+		}
+
 	}
 
 }
