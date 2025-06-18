@@ -35,10 +35,10 @@ class RateLimitInterceptorTests {
 	private RateLimitInterceptor rateLimitInterceptor;
 
 	@Test
-	void testMaxRequestsConfigurationIsSetTo2() {
+	void testMaxRequestsConfigurationIsSetTo5() {
 		// Use reflection to access the private field
 		Integer maxRequests = (Integer) ReflectionTestUtils.getField(rateLimitInterceptor, "maxRequests");
-		assertThat(maxRequests).isEqualTo(2);
+		assertThat(maxRequests).isEqualTo(5);
 	}
 
 	@Test
