@@ -41,27 +41,17 @@ public class PetAnalyticsService {
 	}
 
 	private String categorizeByType(String petType) {
-		switch (petType.toLowerCase()) {
-			case "dog":
-				return "Canine";
-			case "cat":
-				return "Feline";
-			case "bird":
-				return "Avian";
-			case "hamster":
-			case "rabbit":
-				return "Small Mammal";
-			default:
-				return "Other";
-		}
+		return switch (petType.toLowerCase()) {
+			case "dog" -> "Canine";
+			case "cat" -> "Feline";
+			case "bird" -> "Avian";
+			case "hamster", "rabbit" -> "Small Mammal";
+			default -> "Other";
+		};
 	}
 
 	private String formatDate(LocalDate date) {
-		if (date == null) {
-			return "Unknown";
-		}
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
-		return date.format(formatter);
+		return date != null ? date.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")) : "Unknown";
 	}
 
 	private String getLastVisitDate(Pet pet) {
@@ -69,11 +59,11 @@ public class PetAnalyticsService {
 			return "No visits";
 		}
 
-		List<Visit> visitList = new ArrayList<>(pet.getVisits());
-		visitList.sort(Comparator.comparing(Visit::getDate));
-		Visit lastVisit = visitList.get(visitList.size() - 1);
-
-		return formatDate(lastVisit.getDate());
+		return pet.getVisits()
+			.stream()
+			.max(Comparator.comparing(Visit::getDate))
+			.map(visit -> formatDate(visit.getDate()))
+			.orElse("No visits");
 	}
 
 	public CompletableFuture<Map<String, Object>> analyzeAllPetsAsync() {
@@ -111,18 +101,12 @@ public class PetAnalyticsService {
 	}
 
 	private String determineHealthStatus(int visitCount) {
-		if (visitCount == 0) {
-			return "Unknown";
-		}
-		else if (visitCount <= 2) {
-			return "Good";
-		}
-		else if (visitCount <= 5) {
-			return "Moderate";
-		}
-		else {
-			return "High Maintenance";
-		}
+		return switch (visitCount) {
+			case 0 -> "Unknown";
+			case 1, 2 -> "Good";
+			case 3, 4, 5 -> "Moderate";
+			default -> "High Maintenance";
+		};
 	}
 
 	private int calculateAge(LocalDate birthDate) {
@@ -136,14 +120,14 @@ public class PetAnalyticsService {
 		Map<String, Object> result = new HashMap<>();
 
 		Map<String, Long> typeCount = analyses.stream()
-			.collect(Collectors.groupingBy(analysis -> analysis.type, Collectors.counting()));
+			.collect(Collectors.groupingBy(PetAnalysis::type, Collectors.counting()));
 
 		Map<String, Long> healthStatusCount = analyses.stream()
-			.collect(Collectors.groupingBy(analysis -> analysis.healthStatus, Collectors.counting()));
+			.collect(Collectors.groupingBy(PetAnalysis::healthStatus, Collectors.counting()));
 
-		double averageAge = analyses.stream().mapToInt(analysis -> analysis.ageInYears).average().orElse(0.0);
+		double averageAge = analyses.stream().mapToInt(PetAnalysis::ageInYears).average().orElse(0.0);
 
-		int totalVisits = analyses.stream().mapToInt(analysis -> analysis.visitCount).sum();
+		int totalVisits = analyses.stream().mapToInt(PetAnalysis::visitCount).sum();
 
 		result.put("totalPets", analyses.size());
 		result.put("petsByType", typeCount);
@@ -155,48 +139,7 @@ public class PetAnalyticsService {
 		return result;
 	}
 
-	public static class PetAnalysis {
-
-		public final String name;
-
-		public final String type;
-
-		public final int ageInYears;
-
-		public final int visitCount;
-
-		public final String healthStatus;
-
-		public PetAnalysis(String name, String type, int ageInYears, int visitCount, String healthStatus) {
-			this.name = name;
-			this.type = type;
-			this.ageInYears = ageInYears;
-			this.visitCount = visitCount;
-			this.healthStatus = healthStatus;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null || getClass() != obj.getClass())
-				return false;
-			PetAnalysis that = (PetAnalysis) obj;
-			return ageInYears == that.ageInYears && visitCount == that.visitCount && Objects.equals(name, that.name)
-					&& Objects.equals(type, that.type) && Objects.equals(healthStatus, that.healthStatus);
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(name, type, ageInYears, visitCount, healthStatus);
-		}
-
-		@Override
-		public String toString() {
-			return "PetAnalysis{" + "name='" + name + '\'' + ", type='" + type + '\'' + ", ageInYears=" + ageInYears
-					+ ", visitCount=" + visitCount + ", healthStatus='" + healthStatus + '\'' + '}';
-		}
-
+	public record PetAnalysis(String name, String type, int ageInYears, int visitCount, String healthStatus) {
 	}
 
 }
