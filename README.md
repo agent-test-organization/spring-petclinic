@@ -2,9 +2,83 @@
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/spring-projects/spring-petclinic) [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=7517918)
 
+## About the Project
+
+Spring PetClinic is a comprehensive sample application that demonstrates best practices for building modern web applications with the Spring Framework ecosystem. Originally created to showcase Spring's capabilities, PetClinic serves as a veterinary clinic management system where you can manage veterinarians, pet owners, pets, and their medical visits.
+
+This application serves as an excellent learning resource and reference implementation for:
+- **Spring Framework developers** looking to understand real-world application patterns
+- **Architecture evaluation** when comparing Spring with other frameworks
+- **Learning modern Java web development** with industry-standard tools and practices
+- **Demonstrating enterprise application features** like data persistence, validation, and web MVC
+
+## Key Features
+
+- **Veterinarian Management**: Add, view, and manage veterinary staff with their specialties
+- **Pet Owner Management**: Comprehensive customer database with contact information
+- **Pet Registration**: Track pets with detailed information including type, birth date, and medical history
+- **Visit Tracking**: Schedule and record veterinary visits with detailed notes
+- **Search Functionality**: Find owners, pets, and veterinarians quickly
+- **Responsive Web Interface**: Modern, mobile-friendly user interface
+- **Multiple Database Support**: Works with H2 (in-memory), MySQL, and PostgreSQL
+- **RESTful Architecture**: Clean API design following REST principles
+- **Comprehensive Testing**: Unit, integration, and web layer tests included
+
+## Technology Stack
+
+This application demonstrates the integration of several key technologies:
+
+### Backend
+- **Spring Boot 3.5** - Application framework and auto-configuration
+- **Spring MVC** - Web framework for REST and web controllers
+- **Spring Data JPA** - Data access layer with Hibernate
+- **Spring Validation** - Bean validation with custom validators
+- **Spring Cache** - Caching abstraction for improved performance
+
+### Frontend
+- **Thymeleaf** - Server-side template engine
+- **Bootstrap 5** - Responsive CSS framework
+- **Webjars** - Web library dependency management
+
+### Database
+- **H2** - In-memory database (default for development)
+- **MySQL 9.2** - Production-ready relational database
+- **PostgreSQL 17.5** - Advanced open-source database
+
+### Build & Testing
+- **Maven** - Primary build tool and dependency management
+- **Gradle** - Alternative build system support
+- **JUnit 5** - Testing framework
+- **Testcontainers** - Integration testing with real databases
+- **Spring Boot Test** - Comprehensive testing support
+
+### Development Tools
+- **Spring Boot DevTools** - Hot reloading and development utilities
+- **Docker Compose** - Container orchestration for databases
+- **Checkstyle** - Code quality and formatting
+- **Spring Java Format** - Consistent code formatting
+
 ## Understanding the Spring Petclinic application with a few diagrams
 
 [See the presentation here](https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application)
+
+## Quick Start
+
+Get the application running in under 5 minutes:
+
+```bash
+# Clone the repository
+git clone https://github.com/spring-projects/spring-petclinic.git
+cd spring-petclinic
+
+# Run with Maven (recommended)
+./mvnw spring-boot:run
+
+# Or run with Gradle
+./gradlew bootRun
+```
+
+Once started, navigate to [http://localhost:8080](http://localhost:8080) to explore the application.
 
 ## Run Petclinic locally
 
@@ -127,13 +201,120 @@ The following items should be installed in your system:
 
     Visit [http://localhost:8080](http://localhost:8080) in your browser.
 
+## Project Structure
+
+The application follows standard Spring Boot conventions and clean architecture principles:
+
+```
+src/main/java/org/springframework/samples/petclinic/
+├── PetClinicApplication.java          # Main Spring Boot application class
+├── model/                             # Domain entities and data models
+│   ├── BaseEntity.java               # Base class for all entities
+│   ├── Person.java                   # Base class for persons (Owner, Vet)
+│   ├── Pet.java                      # Pet entity
+│   ├── PetType.java                  # Pet type enumeration
+│   └── Visit.java                    # Veterinary visit entity
+├── owner/                            # Owner and pet management
+│   ├── Owner.java                    # Owner entity
+│   ├── OwnerController.java          # Web controller for owners
+│   ├── OwnerRepository.java          # Data access for owners
+│   ├── Pet.java                      # Pet entity (owner relationship)
+│   ├── PetController.java            # Web controller for pets
+│   ├── PetRepository.java            # Data access for pets
+│   ├── PetValidator.java             # Pet data validation
+│   ├── Visit.java                    # Visit entity
+│   ├── VisitController.java          # Web controller for visits
+│   └── VisitRepository.java          # Data access for visits
+├── system/                           # System configuration and utilities
+│   ├── CacheConfiguration.java       # Caching setup
+│   └── WelcomeController.java        # Home page controller
+└── vet/                              # Veterinarian management
+    ├── Vet.java                      # Veterinarian entity
+    ├── VetController.java            # Web controller for vets
+    ├── VetRepository.java            # Data access for vets
+    └── Specialty.java                # Veterinary specialties
+
+src/main/resources/
+├── application.properties            # Main configuration
+├── application-mysql.properties      # MySQL-specific configuration
+├── application-postgres.properties   # PostgreSQL-specific configuration
+├── db/                              # Database scripts and migrations
+├── static/                          # Static web assets (CSS, JS, images)
+└── templates/                       # Thymeleaf templates
+```
+
+### Key Architectural Patterns
+
+- **MVC Pattern**: Clear separation between Model (entities), View (Thymeleaf templates), and Controller (web controllers)
+- **Repository Pattern**: Data access abstraction using Spring Data JPA repositories
+- **Dependency Injection**: Comprehensive use of Spring's IoC container
+- **Configuration Management**: Profile-based configuration for different environments
+- **Validation**: Bean validation with custom validators
+- **Caching**: Strategic caching of frequently accessed data
+
 ## Looking for something in particular?
+
+### Essential Spring Boot Configuration
 
 |Spring Boot Configuration | Class or Java property files  |
 |--------------------------|---|
 |The Main Class | [PetClinicApplication](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/PetClinicApplication.java) |
 |Properties Files | [application.properties](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/resources) |
 |Caching | [CacheConfiguration](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/system/CacheConfiguration.java) |
+
+### Core Domain Classes
+
+|Domain Area | Key Classes |
+|------------|-------------|
+|Owner Management | [Owner](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/owner/Owner.java), [OwnerController](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java) |
+|Pet Management | [Pet](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/owner/Pet.java), [PetController](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/owner/PetController.java) |
+|Veterinary Care | [Vet](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/vet/Vet.java), [Visit](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/owner/Visit.java) |
+|Data Access | [OwnerRepository](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java), [VetRepository](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/vet/VetRepository.java) |
+
+### API Endpoints
+
+The application provides both web pages and RESTful API endpoints:
+
+#### Web Interface
+- `/` - Welcome page
+- `/owners` - Owner management interface
+- `/owners/{id}` - Owner details and pet management
+- `/owners/{id}/pets/new` - Add new pet form
+- `/owners/{id}/pets/{petId}/visits/new` - Schedule new visit
+- `/vets` - Veterinarian listing
+
+#### REST API
+- `GET /api/owners` - List all owners
+- `GET /api/owners/{id}` - Get owner by ID
+- `GET /api/pets` - List all pets
+- `GET /api/vets` - List all veterinarians
+- `GET /api/petTypes` - List available pet types
+
+*Note: The REST API is available but the primary interface is the web application. For API testing, consider using tools like Postman or curl.*
+
+## Performance and Scalability
+
+The PetClinic application demonstrates several performance optimization techniques:
+
+### Caching Strategy
+- **Spring Cache Abstraction**: Implements caching for frequently accessed data
+- **Vet Information Caching**: Veterinarian data is cached to reduce database queries
+- **Configurable Cache Providers**: Support for different cache implementations
+
+### Database Optimization
+- **Connection Pooling**: Efficient database connection management
+- **JPA Query Optimization**: Optimized queries with proper fetch strategies  
+- **Multiple Database Support**: Scalable from in-memory H2 to enterprise PostgreSQL/MySQL
+
+### Monitoring and Observability
+- **Spring Boot Actuator**: Built-in health checks and metrics endpoints
+- **Performance Metrics**: Application performance monitoring capabilities
+- **Database Health Checks**: Monitor database connectivity and performance
+
+### Deployment Options
+- **Container Ready**: Built-in support for containerization with Spring Boot
+- **Native Image Support**: GraalVM native image compilation for faster startup
+- **Cloud Native**: Suitable for deployment on modern cloud platforms
 
 ## Interesting Spring Petclinic branches and forks
 
@@ -152,6 +333,46 @@ Here is a list of them:
 | Spring JDBC: simplify usage of NamedParameterJdbcTemplate | [SPR-10256](https://github.com/spring-projects/spring-framework/issues/14889) and [SPR-10257](https://github.com/spring-projects/spring-framework/issues/14890) |
 | Bean Validation / Hibernate Validator: simplify Maven dependencies and backward compatibility |[HV-790](https://hibernate.atlassian.net/browse/HV-790) and [HV-792](https://hibernate.atlassian.net/browse/HV-792) |
 | Spring Data: provide more flexibility when working with JPQL queries | [DATAJPA-292](https://github.com/spring-projects/spring-data-jpa/issues/704) |
+
+## Troubleshooting
+
+### Common Issues and Solutions
+
+#### Build Issues
+**Problem**: Maven build fails with formatting violations
+```bash
+# Solution: Apply Spring Java formatting
+./mvnw spring-javaformat:apply
+```
+
+**Problem**: Out of memory during build
+```bash
+# Solution: Increase Maven memory
+export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=256m"
+```
+
+#### Runtime Issues
+**Problem**: Application fails to start with database connection errors
+- **H2 Database**: Ensure no other instance is running on port 8080
+- **MySQL**: Verify Docker container is running: `docker-compose up mysql`
+- **PostgreSQL**: Verify Docker container is running: `docker-compose up postgres`
+
+**Problem**: Port 8080 already in use
+```bash
+# Solution: Use a different port
+./mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
+```
+
+#### Development Issues
+**Problem**: Hot reload not working in IDE
+- Ensure Spring Boot DevTools is included in dependencies
+- Verify automatic build is enabled in your IDE
+- Check that the IDE is configured for annotation processing
+
+### Getting Help
+- Check the [GitHub Issues](https://github.com/spring-projects/spring-petclinic/issues) for known problems
+- Review the [Spring Boot Documentation](https://docs.spring.io/spring-boot/docs/current/reference/html/)
+- Visit [Spring Community Forums](https://spring.io/community) for community support
 
 ## Contributing
 
