@@ -9525,4 +9525,18 @@ strong {
     margin-top: 10px;
     margin-bottom: 30px; } }
 
+/* Fix form validation feedback styling - change yellow to green */
+.form-control-feedback.fa-ok {
+  color: #6db33f !important;
+}
+
+.has-success .form-control-feedback {
+  color: #6db33f !important;
+}
+
+/* Fix button alignment issues */
+.btn + .btn {
+  margin-left: 8px;
+}
+
 /*# sourceMappingURL=../../../../../../target/petclinic.css.map */

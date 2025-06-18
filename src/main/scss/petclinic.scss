@@ -212,3 +212,17 @@ hr {
 @import "typography.scss";
 @import "header.scss";
 @import "responsive.scss";
+
+/* Fix form validation feedback styling - change yellow to green */
+.form-control-feedback.fa-ok {
+  color: $spring-green !important;
+}
+
+.has-success .form-control-feedback {
+  color: $spring-green !important;
+}
+
+/* Fix button alignment issues */
+.btn + .btn {
+  margin-left: 8px;
+}
