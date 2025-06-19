@@ -2,6 +2,21 @@
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/spring-projects/spring-petclinic) [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=7517918)
 
+## About
+
+Spring PetClinic is a sample application designed to show how the Spring Boot stack works. The application allows users to manage veterinarians, pet owners, and their pets within a pet clinic. It demonstrates modern Spring development techniques including:
+
+- **Spring Boot** for application setup and configuration
+- **Spring MVC** for web layer implementation
+- **Spring Data JPA** for data access
+- **Thymeleaf** as the templating engine
+- **MySQL** and **PostgreSQL** support alongside the default H2 database
+- **Maven** and **Gradle** build configurations
+- **Docker** containerization
+- **Testing** with JUnit and Spring Boot Test
+
+This application serves as an excellent starting point for developers who want to learn Spring Boot or need a reference implementation for building web applications with the Spring ecosystem.
+
 ## Understanding the Spring Petclinic application with a few diagrams
 
 [See the presentation here](https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application)
