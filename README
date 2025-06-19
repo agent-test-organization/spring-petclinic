@@ -1,0 +1,35 @@
+Spring PetClinic Sample Application
+===================================
+
+This is a Spring Boot application demonstrating the use of Spring MVC, Spring Data JPA, 
+and other Spring technologies in a veterinary clinic management system.
+
+Key Features:
+- Pet and owner management
+- Veterinarian information system
+- Visit scheduling and history
+- Spring Boot with embedded Tomcat
+- H2, MySQL, and PostgreSQL database support
+- Thymeleaf templating engine
+- JPA/Hibernate for data persistence
+- Caching with JCache API
+- Responsive web design with Bootstrap
+
+Quick Start:
+1. Clone the repository
+2. Run: ./mvnw spring-boot:run
+3. Access: http://localhost:8080
+
+System Requirements:
+- Java 17 or newer
+- Maven 3.6+
+- Git
+
+Database Options:
+- Default: H2 (in-memory)
+- MySQL: Run with spring.profiles.active=mysql
+- PostgreSQL: Run with spring.profiles.active=postgres
+
+For detailed documentation, see README.md
+
+Licensed under the Apache License 2.0
