@@ -47,6 +47,9 @@ import jakarta.validation.constraints.NotBlank;
 @Table(name = "owners")
 public class Owner extends Person {
 
+	@Column(name = "middle_name")
+	private String middleName;
+
 	@Column(name = "address")
 	@NotBlank
 	private String address;
@@ -64,6 +67,14 @@ public class Owner extends Person {
 	@JoinColumn(name = "owner_id")
 	@OrderBy("name")
 	private final List<Pet> pets = new ArrayList<>();
+
+	public String getMiddleName() {
+		return this.middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
 
 	public String getAddress() {
 		return this.address;
@@ -149,6 +160,7 @@ public class Owner extends Person {
 			.append("new", this.isNew())
 			.append("lastName", this.getLastName())
 			.append("firstName", this.getFirstName())
+			.append("middleName", this.middleName)
 			.append("address", this.address)
 			.append("city", this.city)
 			.append("telephone", this.telephone)

@@ -17,7 +17,7 @@
   <table class="table table-striped" th:object="${owner}">
     <tr>
       <th th:text="#{name}">Name</th>
-      <td><b th:text="*{firstName + ' ' + lastName}"></b></td>
+      <td><b th:text="*{firstName + (middleName != null and !#strings.isEmpty(middleName) ? ' ' + middleName : '') + ' ' + lastName}"></b></td>
     </tr>
     <tr>
       <th th:text="#{address}">Address</th>
