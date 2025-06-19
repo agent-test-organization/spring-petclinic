@@ -2,6 +2,20 @@
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/spring-projects/spring-petclinic) [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=7517918)
 
+## Spring Frameworks Used
+
+This application demonstrates the use of several Spring frameworks:
+
+- **Spring Boot** - The main framework providing auto-configuration and embedded server capabilities
+- **Spring Web MVC** - For building web applications and REST APIs
+- **Spring Data JPA** - For data access layer with JPA/Hibernate integration
+- **Spring Boot Actuator** - For monitoring and management endpoints
+- **Spring Cache** - For caching support with multiple cache providers
+- **Spring Boot Validation** - For bean validation using Jakarta Bean Validation
+- **Thymeleaf** - Template engine for server-side HTML rendering
+- **Spring Boot DevTools** - For enhanced development experience
+- **Spring Boot Test** - For comprehensive testing support including TestContainers
+
 ## Understanding the Spring Petclinic application with a few diagrams
 
 [See the presentation here](https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application)
