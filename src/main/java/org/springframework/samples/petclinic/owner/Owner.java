@@ -149,6 +149,7 @@ public class Owner extends Person {
 			.append("new", this.isNew())
 			.append("lastName", this.getLastName())
 			.append("firstName", this.getFirstName())
+			.append("middleName", this.getMiddleName())
 			.append("address", this.address)
 			.append("city", this.city)
 			.append("telephone", this.telephone)
